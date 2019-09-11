@@ -1211,14 +1211,18 @@ class TDataFrame(object):
      - sm_size
      - df_handle
      - df_size
+     - execution_time_ms
+     - arrow_conversion_time_ms
     """
 
 
-    def __init__(self, sm_handle=None, sm_size=None, df_handle=None, df_size=None,):
+    def __init__(self, sm_handle=None, sm_size=None, df_handle=None, df_size=None, execution_time_ms=None, arrow_conversion_time_ms=None,):
         self.sm_handle = sm_handle
         self.sm_size = sm_size
         self.df_handle = df_handle
         self.df_size = df_size
+        self.execution_time_ms = execution_time_ms
+        self.arrow_conversion_time_ms = arrow_conversion_time_ms
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1249,6 +1253,16 @@ class TDataFrame(object):
                     self.df_size = iprot.readI64()
                 else:
                     iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I64:
+                    self.execution_time_ms = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I64:
+                    self.arrow_conversion_time_ms = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1274,6 +1288,14 @@ class TDataFrame(object):
         if self.df_size is not None:
             oprot.writeFieldBegin('df_size', TType.I64, 4)
             oprot.writeI64(self.df_size)
+            oprot.writeFieldEnd()
+        if self.execution_time_ms is not None:
+            oprot.writeFieldBegin('execution_time_ms', TType.I64, 5)
+            oprot.writeI64(self.execution_time_ms)
+            oprot.writeFieldEnd()
+        if self.arrow_conversion_time_ms is not None:
+            oprot.writeFieldBegin('arrow_conversion_time_ms', TType.I64, 6)
+            oprot.writeI64(self.arrow_conversion_time_ms)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5710,6 +5732,8 @@ TDataFrame.thrift_spec = (
     (2, TType.I64, 'sm_size', None, None, ),  # 2
     (3, TType.STRING, 'df_handle', 'BINARY', None, ),  # 3
     (4, TType.I64, 'df_size', None, None, ),  # 4
+    (5, TType.I64, 'execution_time_ms', None, None, ),  # 5
+    (6, TType.I64, 'arrow_conversion_time_ms', None, None, ),  # 6
 )
 all_structs.append(TDBInfo)
 TDBInfo.thrift_spec = (

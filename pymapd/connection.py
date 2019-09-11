@@ -342,7 +342,8 @@ class Connection:
         if release_memory:
             self.deallocate_ipc_gpu(df)
 
-        return df
+        print(tdf)
+        return df, tdf.execution_time_ms, tdf.arrow_conversion_time_ms
 
     def select_ipc(self, operation, parameters=None, first_n=-1,
                    release_memory=True):
@@ -393,8 +394,8 @@ class Connection:
         # Deallocate TDataFrame at OmniSci instance
         if release_memory:
             self.deallocate_ipc(df)
-
-        return df
+        print(tdf)
+        return df, tdf.execution_time_ms, tdf.arrow_conversion_time_ms
 
     def deallocate_ipc_gpu(self, df, device_id=0):
         """Deallocate a DataFrame using GPU memory.
